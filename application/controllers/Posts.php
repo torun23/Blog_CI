@@ -2,12 +2,19 @@
 
 class Posts extends CI_Controller {
 
-public function index()
+public function index($offset = 0)
 {
-    
+    $config['base_url'] = base_url().'posts/index/';
+    $config['total_rows'] = $this->db->count_all('posts');
+    $config['per_page'] = 3;
+    $config['uri_segment'] = 3;
+    $config['attributes'] = array('class' => 'pagination-link');
+
+    $this->pagination->initialize($config);
+
     $data['title'] = 'Latest Posts';
 
-    $data['posts'] = $this->post_model->get_posts();
+    $data['posts'] = $this->post_model->get_posts(FALSE,$config['per_page'],$offset);
     
     $this->load->view('templates/header');
     $this->load->view('posts/index', $data);
@@ -19,7 +26,7 @@ public function view($slug = NULL){
     $data['comments'] = $this->comment_model->get_comments($post_id);
     
     if(empty($data['post'])){
-        show_404();
+        show_40f4();
     }
     $data['title'] = $data['post']['title'];
  
@@ -29,6 +36,10 @@ public function view($slug = NULL){
 
 }
 public function create(){
+    // check login
+    if(!$this->session->userdata('logged_in')){
+        redirect('users/login');
+    }
 
     $data['title'] = 'Create Post';
 
@@ -67,6 +78,10 @@ else{
 }
 }
 public function delete($id){
+        // check login
+        if(!$this->session->userdata('logged_in')){
+            redirect('users/login');
+        }
     $this->post_model->delete_post($id);
     $this->session->set_flashdata('post_deleted','Your post has been deleted');
 
@@ -74,8 +89,15 @@ public function delete($id){
 
 }
 public function edit($slug){
+        // check login
+        if(!$this->session->userdata('logged_in')){
+            redirect('users/login');
+        }
     $data['post'] = $this->post_model->get_posts($slug);
-    $data['categories'] = $this->post_model->get_categories();
+if($this->session->userdata('user_id')!=$this->post_model->get_posts($slug)['user_id']){
+    redirect('posts');
+}
+$data['categories'] = $this->post_model->get_categories();
 
 if(empty($data['post'])){
     show_404();
@@ -88,6 +110,10 @@ $this->load->view('templates/footer');
 }
 
 public function update(){
+        // check login
+        if(!$this->session->userdata('logged_in')){
+            redirect('users/login');
+        }
     $this->post_model->update_post();
     $this->session->set_flashdata('post_updated','Your post has been updated');
 

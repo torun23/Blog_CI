@@ -25,21 +25,20 @@
                     <li><a href = "<?= base_url(); ?>about">About</a></li>
                     <li><a href = "<?= base_url(); ?>posts">BLog</a></li>
                     <li><a href = "<?= base_url(); ?>categories">Categories</a></li>
-
                 </ul>
                 <ul class = "nav navbar-nav navbar-right">
-                <?php if(!$this->session->userdata('logged_in')): ?>
-                    <li><a href = "<?php echo base_url(); ?>users/login">Login</a></li> 
-                    <li><a href = "<?php echo base_url(); ?>users/register">Register</a></li> 
-<?php endif;?>
-<?php if($this->session->userdata('logged_in')): ?>
-
-                <li><a href = "<?php echo base_url(); ?>posts/create">Create Post</a></li> 
-                 <li><a href = "<?php echo base_url(); ?>categories/create">Create Category</a></li>   
-                 <li><a href = "<?php echo base_url(); ?>users/logout">Logout</a></li>  
-<?php endif;?>
-            </ul>
+                <?php if(!$this->session->userdata('logged_in')) : ?>
+                    <li><a href="<?php echo base_url(); ?>users/login">Login</a></li>
+                    <li><a href="<?php echo base_url(); ?>users/register">Register</a></li>
+                <?php endif; ?>
+                <?php if($this->session->userdata('logged_in')) : ?>
+                    <li><a href="<?php echo base_url(); ?>posts/create">Create Post</a></li>
+                    <li><a href="<?php echo base_url(); ?>categories/create">Create Category</a></li>
+                    <li><a href="<?php echo base_url(); ?>users/logout">Logout</a></li>
+                <?php endif; ?>
+                </ul>
             </div>  
+
         </div>
     </nav>
     <div class="container">
@@ -73,6 +72,10 @@
 
          <?php if($this->session->flashdata('user_loggedout')): ?>
          <?php echo '<p class="alert alert-success">'.$this->session->flashdata('user_loggedout').'</p>'; ?>
+         <?php endif; ?>  
+
+         <?php if($this->session->flashdata('category_deleted')): ?>
+         <?php echo '<p class="alert alert-success">'.$this->session->flashdata('category_deleted').'</p>'; ?>
          <?php endif; ?>  
 
 
