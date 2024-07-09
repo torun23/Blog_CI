@@ -50,7 +50,7 @@ $user_data = array(
 'logged_in'=> true
 );
 
-    $this->session->set_flashdata('user_loggedin','You are now logged in');
+$this->session->set_flashdata('user_loggedin','You are now logged in');
 redirect('posts');
 }
 else{
@@ -60,9 +60,17 @@ else{
     }
     
     }
+public function logout(){
+$this->session->unset_userdata('logged_in');
+$this->session->unset_userdata('user_id');
+$this->session->unset_userdata('username');
 
+$this->session->set_flashdata('user_loggedout','You are now logged out');
+redirect('users/login');
+
+}
 // check if username exists
-function check_username_exists($username){
+public function check_username_exists($username){
     $this->form_validation->set_message('check_username_exists','The username is taken.Please choose a different one');
  if($this->user_model->check_username_exists($username)){
     return true;
@@ -72,7 +80,7 @@ else{
 }
 }
 
- function check_email_exists($email){
+ public function check_email_exists($email){
     $this->form_validation->set_message('check_email_exists','The email is taken.Please choose a different one');
  if($this->user_model->check_email_exists($email)){
     return true;
