@@ -1,0 +1,44 @@
+{
+    "Football": {
+        "Yes": [
+            { "name": "Asutosh", "response": "Yes" },
+            { "name": "Torun", "response": "Yes" },
+            { "name": "Suraj", "response": "Yes" }
+        ],
+        "No": [
+            { "name": "Abhinav", "response": "No" },
+            { "name": "Pramod", "response": "No" }
+        ],
+        "Maybe": [
+            { "name": "Dinesh", "response": "Maybe" },
+            { "name": "Karthik", "response": "Maybe" }
+        ]
+    },
+    "Cricket": {
+        "Yes": [
+            { "name": "Torun", "response": "Yes" },
+            { "name": "Dinesh", "response": "Yes" }
+        ],
+        "No": [
+            { "name": "Grace", "response": "No" },
+            { "name": "Sanjana", "response": "No" }
+        ],
+        "Maybe": [
+            { "name": "Pramod", "response": "Maybe" }
+        ]
+    },
+    "Basketball": {
+        "Yes": [
+            { "name": "Ankush", "response": "Yes" },
+            { "name": "Torun", "response": "Yes" },
+            { "name": "Abhinav", "response": "Yes" }
+        ],
+        "No": [
+            { "name": "Dinesh", "response": "No" }
+        ],
+        "Maybe": [
+            { "name": "Suraj", "response": "Maybe" },
+            { "name": "Asutosh", "response": "Maybe" }
+        ]
+    }
+}

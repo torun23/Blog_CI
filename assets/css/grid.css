@@ -1,0 +1,4 @@
+.grid-container {
+    width: 80%; /* Reduce the width of the table */
+    margin: 0 auto; /* Center the table */
+}
