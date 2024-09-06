@@ -2,10 +2,11 @@
 
 class JqgridModel extends CI_Model
 {
-    public function deleteForm($id)
-    {
-        return $this->db->delete('forms', ['id' => $id]);
-    }
+    // public function deleteForm($id)
+    // {
+    //     return $this->db->delete('forms', ['Serial_ID' => $id]);
+    // }
+
     public function getAllProfiles() {
         $this->db->select('profile_id, profile_name, mail, gender');
         $this->db->from('profiles');
@@ -30,7 +31,7 @@ class JqgridModel extends CI_Model
     
     public function updateRecord($id, $data)
     {
-        $this->db->where('id', $id);
+        $this->db->where('Serial_ID', $id);
         $updated = $this->db->update('forms', $data);
         
         if ($updated) {

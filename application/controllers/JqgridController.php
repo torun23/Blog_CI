@@ -23,9 +23,6 @@ public function getFormDetails($id) {
     echo json_encode($formDetails);
 }
     
-    
-    
-    
     public function grid()
     {
         $this->load->view('jqgrid_view');
@@ -122,7 +119,7 @@ public function getFormDetails($id) {
         log_message('debug', 'Deleting record with ID: ' . $id);  // Log the ID being deleted
 
         if ($id) {
-            $this->db->where('id', $id);
+            $this->db->where('Serial_ID', $id);
             if ($this->db->delete('forms')) {
                 echo "success";
             } else {
@@ -133,9 +130,10 @@ public function getFormDetails($id) {
         }
     }
 
-    public function updateData()
+    public function updateData($id)
     {
-        $id = $this->input->post('id', true);
+        // $id = $this->input->post('id', true);
+        var_dump($id);
         $data = [
             'title' => $this->input->post('title', true),
             'response_link' => $this->input->post('response_link', true),

@@ -67,13 +67,10 @@
 
     </style>
 <div class="grid-container">
-    <table id="grid"></table>
-    <div id="pager">
-    <!-- <button id="add-new-row-btn" style="position:relative;">Add Row</button>      -->
-</div>
-<button id="add-new-row-btn" style="position:relative;bottom:308px;left:1100px">Add Row</button>
-       
-    <!-- <button id="add-new-row-btn" style="position:absolute; top: 10px;right: 182px">Add Row</button> Add Button at the Bottom -->
+        <table id="grid"></table>
+        <div id="pager"></div>
+        <button id="add-new-row-btn" style="position:absolute; top: 10px;right: 190px">Add Row</button> <!-- Add Button at the Bottom -->
+    </div>
 
 <div id="dialog-form" title="Fill Details" style="display:none;">
     <form>
@@ -106,8 +103,6 @@
         var newRowData = {
             user_id: $("#user_id").val(),
             title: $("#title").val(),
-            description: $("#description").val(),
-            is_published: $("#is_published").val(),
             response_link: $("#response_link").val(),
             is_responsive: $("#is_responsive").val()
             // actions: '' // Leave actions empty, it will be filled after saving
@@ -166,19 +161,16 @@
             var base_url = "<?php echo base_url(); ?>";
             var profileColumnsAdded = false; // Flag to track if profile columns are added
             var columnsExpanded = false; // Flag to track if columns are expanded
-            $(document).ready(function () {
-    var columnsExpanded = false;
-
-    $("#grid").jqGrid({
-        url: base_url + 'JqgridController/getData',
-        datatype: 'json',
-        mtype: 'GET',
-        colNames: [
+            $("#grid").jqGrid({
+                url: base_url + 'JqgridController/getData',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: [
             'Serial_ID', 'ID', 'Title', 'Response Link', 'Created At',
             'Is Responsive', 'User ID', 'Profile Name', 'Mail', 'Gender', 'Actions'
-        ],
-        colModel: [
-            { name: 'Serial_ID', index: 'Serial_ID', width: 55, align: 'center', key: true },
+                ],
+                colModel: [
+                    { name: 'Serial_ID', index: 'Serial_ID', width: 55, align: 'center', key: true },
             { name: 'id', index: 'id', width: 55, align: 'center', formatter: idFormatter },
             { name: 'title', index: 'title', width: 150, align: 'center', editable: true },
             { name: 'response_link', index: 'response_link', width: 150, editable: true },
@@ -189,31 +181,30 @@
             { name: 'mail', index: 'mail', width: 200, hidden: true, align: 'center', classes: 'expanded-column' },
             { name: 'gender', index: 'gender', width: 100, hidden: true, align: 'center', classes: 'expanded-column' },
             { name: 'actions', index: 'actions', width: 100, align: 'center', sortable: false, formatter: actionFormatter, search: false }
-        ],
-        pager: '#pager',
-        rowNum: 20,
-        rowList: [5, 10, 15, 20],
-        sortname: 'id',
-        sortorder: 'asc',
-        viewrecords: true,
-        caption: 'Forms Data',
-        height: 'auto',
-        autowidth: true,
-        toolbar: [true, "top"],
-        gridComplete: function () {
+                ],
+                pager: '#pager',
+                rowNum: 20,
+                rowList: [5, 10, 15, 20],
+                sortname: 'id',
+                sortorder: 'asc',
+                viewrecords: true,
+                caption: 'Forms Data',
+                height: 'auto',
+                autowidth: true,
+                toolbar: [true, "top"], // Enable the toolbar filter
+                gridComplete: function () {
             // Add the plus button to the User ID column header
             if (!columnsExpanded) {
                 $("#grid_user_id").html('User ID <button class="expand-header-btn">+</button>');
             }
         }
-    });
 
-    // Formatter function for ID column
-    function idFormatter(cellValue, options, rowObject) {
+            });
+// Formatter function for ID column
+            function idFormatter(cellValue, options, rowObject) {
         return cellValue + ' <button class="toggle-details-btn" data-id="' + options.rowId + '">+</button>';
     }
-
-    // Handle the expanding and collapsing of columns
+        // Handle the expanding and collapsing of columns
     $(document).on('click', '.expand-header-btn', function () {
         if (!columnsExpanded) {
             // Fetch profile data
@@ -282,10 +273,6 @@
         }
     });
 
-});
-
-
-
             $("#grid").jqGrid('filterToolbar', {
                 stringResult: true, // Filter results as a string
                 searchOnEnter: false, // Search on key press, not just on Enter
@@ -323,6 +310,7 @@
             // Save button click event for existing rows
             $(document).on('click', '.save-btn', function () {
                 var id = $(this).data('id');
+                console.log(id);
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -335,7 +323,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $("#grid").jqGrid('saveRow', id, {
-                            url: base_url + 'JqgridController/updateData',
+                            url: base_url + 'JqgridController/updateData/' + id,
                             aftersavefunc: function () {
                                 Swal.fire('Saved!', 'The record has been updated.', 'success');
                                 $("#grid").trigger("reloadGrid");
@@ -378,9 +366,10 @@
                     cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        console.log(id);
+
                         $.ajax({
                             url: base_url + 'JqgridController/deleteData/' + id,
-                            // console.log("id")
                             type: 'POST',
                             success: function () {
                                 Swal.fire('Deleted!', 'The record has been deleted.', 'success');
